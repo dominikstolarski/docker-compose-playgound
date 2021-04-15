@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  api:
+    build: .
+    ports:
+    - "3001:3001"
+    depends_on:
+    - "database"
+  database:
+    container_name: "mysql"
+    image: mysql/mysql-server:latest
+    ports:
+    - "3306:3306"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: user
+      MYSQL_DATABASE: emaildb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
+
